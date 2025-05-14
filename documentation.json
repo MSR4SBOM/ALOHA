@@ -1,8 +1,8 @@
 {
-    "bomFormat": "pecifies the format of the BOM. This value must be 'CycloneDX'.",
+    "bomFormat": "Specifies the format of the BOM. This value must be 'CycloneDX'.",
     "specVersion": "The version of the CycloneDX specification the BOM conforms to, (The latest version, which is 1.6, is used).",
-    "serialNumber": "a unique serial number conforming to RFC 4122",
-    "version": "he version of the BOM, the default value is 1, and it is incremented when the BOM is modified.",
+    "serialNumber": "A unique serial number conforming to RFC 4122",
+    "version": "The version of the BOM, the default value is 1, and it is incremented when the BOM is modified.",
     "metadata": { //Provides additional information about a BOM.
         "timestamp": "The date and time (timestamp) when the BOM was created.",
         "component": { //The component object contains information about the main component described by the BOM, the machine learning model.
