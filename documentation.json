@@ -80,11 +80,11 @@
                     },
                     {
                         "name": "base_model",
-                        "value": "Identifies the base model from which the current model is derived, e.g transformers"
+                        "value": "Identifies the base model from which the current model is derived"
                     },
                     {
                         "name": "base_model_relation",
-                        "value": "Defines the relationship between the current model and its base model, e.g transformers"
+                        "value": "Defines the relationship between the current model and its base model"
                     }
                 ]
             },
@@ -131,7 +131,7 @@
                             },
                             {
                                 "name": "size_categories",
-                                "value": " Describe the size of the dataset based on the number of elements."
+                                "value": "Describe the size of the dataset based on the number of elements."
                             },
                             {
                                 "name": "annotations_creators",
@@ -147,7 +147,7 @@
                             },
                             {
                                 "name": "source_datasets",
-                                "value": "A user-friendly or readable name for the dataset."
+                                "value": "A list of source datasets used to create this dataset, specified by their names or identifiers."
                             },
                             {
                                 "name": "paperswithcode_id",
