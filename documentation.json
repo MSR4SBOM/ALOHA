@@ -1,0 +1,189 @@
+{
+    "bomFormat": "pecifies the format of the BOM. This value must be 'CycloneDX'.",
+    "specVersion": "The version of the CycloneDX specification the BOM conforms to, (The latest version, which is 1.6, is used).",
+    "serialNumber": "a unique serial number conforming to RFC 4122",
+    "version": "he version of the BOM, the default value is 1, and it is incremented when the BOM is modified.",
+    "metadata": { //Provides additional information about a BOM.
+        "timestamp": "The date and time (timestamp) when the BOM was created.",
+        "component": { //The component object contains information about the main component described by the BOM, the machine learning model.
+            "type": "Specifies the type of component: 'machine-learning-model'.",
+            "bom-ref": "An optional identifier which can be used to reference the component elsewhere in the BOM.",
+            "name": "The name of the component (model_author/model_name).",
+            "licenses": [ //A list of SPDX licenses and/or named licenses
+                {
+                    "license": { 
+                        "id": "A valid SPDX license identifier.",
+                        "url": "The URL to the license file."
+                    }
+                }
+            ],
+            "externalReferences": [ //External references provide a way to document systems, sites, and information that may be relevant but are not included with the BOM.
+                {
+                    "url": "The URI (URL or URN) to the external reference.",
+                    "type": "Specifies the type of external reference: 'documentation' "
+                }
+            ],
+            "modelCard": { //describes the machine learning model 
+                "modelParameters": {
+                    "task": "task of the model",
+                    "architectureFamily": "The model architecture family",
+                    "modelArchitecture": "The specific architecture of the model",
+                    "datasets": [
+                        {
+                            "ref": "bom-ref of dataset"
+                        },
+                        {
+                            "ref": "bom-ref of dataset"
+                        }
+                    ]
+                },
+                "quantitativeAnalysis": {
+                    "performanceMetrics": [
+                        {
+                            "slice": "The name of the slice this metric was computed on.",
+                            "type": "The type of performance metric (e.g. accuracy).",
+                            "value": "The value of the performance metric."
+                        }
+                    ]
+                },
+                "considerations": {
+                    "useCases": "How the model is intended to be used",
+                    "environmentalConsiderations": {
+                        "properties": [
+                            {
+                                "name": "emissions",
+                                "value": "The amount of CO2 equivalent emitted during the model training process, measured in grams of CO2."
+                            },
+                            {
+                                "name": "source",
+                                "value": "The origin of the emissions data, which can come from automated tracking tools such as AutoTrain and CodeCarbon, or scientific publications documenting the model’s environmental impact."
+                            },
+                            {
+                                "name": "training_type",
+                                "value": "specifies whether the model was pre-trained or fine-tuned."
+                            },
+                            {
+                                "name": "geographical_location",
+                                "value": "The physical location of the computing resources used for training."
+                            },
+                            {
+                                "name": "hardware_used",
+                                "value": "Details about the computing infrastructure used during training."
+                            }
+                        ]
+                    }
+                },
+                "properties": [ //Provides the ability to document properties in a name-value store.
+                    {
+                        "name": "library name",
+                        "value": "Specifies the name of the library used by the model, e.g transformers"
+                    },
+                    {
+                        "name": "base_model",
+                        "value": "Identifies the base model from which the current model is derived, e.g transformers"
+                    },
+                    {
+                        "name": "base_model_relation",
+                        "value": "Defines the relationship between the current model and its base model, e.g transformers"
+                    }
+                ]
+            },
+            "authors": [
+                {
+                    "name": "The person(s) who created the component."
+                }
+            ],
+            "description": "The value for this field is extracted from the #model description of the Hugging Face model card.",
+            "tags": [
+                "transformers",
+                "pytorch"
+            ]
+        }
+    },
+    "components": [//Components  contains information about the dataset(s)
+        {
+            "type": "Specifies the type of component: data (for dataset)",
+            "bom-ref": "An optional identifier which can be used to reference the component elsewhere in the BOM.",
+            "name": "databricks/databricks-dolly-15k",
+            "data": [
+                {
+                    "type": "dataset",
+                    "bom-ref": "An optional identifier which can be used to reference the component elsewhere in the BOM.",
+                    "name": "The name of the dataset. (model_author/dataset_name)",
+                    "contents": {
+                        "url": "The URL to where the data can be retrieved.",
+                        "properties": [
+                            {
+                                "name": "task_categories",
+                                "value": "List of high-level machine learning task categories that this dataset is designed for."
+                            },
+                            {
+                                "name": "task_ids",
+                                "value": "List of specific machine learning tasks associated with this dataset."
+                            },
+                            {
+                                "name": "language",
+                                "value": "List of languages supported by the dataset."
+                            },
+                            {
+                                "name": "language_details",
+                                "value": " List of detailed language identifiers (BCP-47 format) for the dataset"
+                            },
+                            {
+                                "name": "size_categories",
+                                "value": " Describe the size of the dataset based on the number of elements."
+                            },
+                            {
+                                "name": "annotations_creators",
+                                "value": "List of the creators or sources of the annotations in the dataset."
+                            },
+                            {
+                                "name": "language_creators",
+                                "value": "A list of entities or methods Responsible for creating the language or linguistic data in the dataset, such as crowdsourcing, expert generation, or machine generation."
+                            },
+                            {
+                                "name": "pretty_name",
+                                "value": "A user-friendly or readable name for the dataset."
+                            },
+                            {
+                                "name": "source_datasets",
+                                "value": "A user-friendly or readable name for the dataset."
+                            },
+                            {
+                                "name": "paperswithcode_id",
+                                "value": "Identifier of the dataset on PapersWithCode"
+                            },
+                            {
+                                "name": "configs, split, path",
+                                "value": "Name of the dataset subset, split, path"
+                            },
+                            {
+                                "name": "license",
+                                "value": "A valid SPDX license identifier."
+                            },
+                            {
+                                "name": "license_name",
+                                "value": "The name of the license."
+                            },
+                            {
+                                "name": "license_link",
+                                "value": "The URL to the license file."
+                            }
+                        ]
+                    },
+                    "description": "A brief description of the dataset",
+                    "governance": {
+                        "owners": [
+                            {
+                                "organization": {
+                                    "name": "The name of th author(s)",
+                                    "url": "Link to the author’s page on Hugging Face."
+                                }
+                            }
+                        ]
+                    }
+                }
+            ]
+        }
+    ]
+}
