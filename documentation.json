@@ -5,7 +5,7 @@
     "version": "The version of the BOM, the default value is 1, and it is incremented when the BOM is modified.",
     "metadata": { //Provides additional information about a BOM.
         "timestamp": "The date and time (timestamp) when the BOM was created.",
-        "component": { //The component object contains information about the main component described by the BOM, the machine learning model.
+        "component": { //The component object contains information about the main component described by the BOM: the machine learning model.
             "type": "Specifies the type of component: 'machine-learning-model'.",
             "bom-ref": "An optional identifier which can be used to reference the component elsewhere in the BOM.",
             "name": "The name of the component (model_author/model_name).",
@@ -20,34 +20,34 @@
             "externalReferences": [ //External references provide a way to document systems, sites, and information that may be relevant but are not included with the BOM.
                 {
                     "url": "The URI (URL or URN) to the external reference.",
-                    "type": "Specifies the type of external reference: 'documentation' "
+                    "type": "Specifies the type of external reference"
                 }
             ],
             "modelCard": { //describes the machine learning model 
                 "modelParameters": {
-                    "task": "task of the model",
+                    "task": "The task the model performs (e.g., text-classification)",
                     "architectureFamily": "The model architecture family",
                     "modelArchitecture": "The specific architecture of the model",
                     "datasets": [
                         {
-                            "ref": "bom-ref of dataset"
+                            "ref": "bom-ref-of-dataset-1"
                         },
                         {
-                            "ref": "bom-ref of dataset"
+                            "ref": "bom-ref-of-dataset-2"
                         }
                     ]
                 },
                 "quantitativeAnalysis": {
                     "performanceMetrics": [
                         {
-                            "slice": "The name of the slice this metric was computed on.",
-                            "type": "The type of performance metric (e.g. accuracy).",
-                            "value": "The value of the performance metric."
+                            "slice": "The name of the data subset this metric was computed on",
+                            "type": "The type of performance metric (e.g., accuracy, F1, precision).",
+                            "value": "The numeric value of the performance metric (e.g., 0.92)."
                         }
                     ]
                 },
                 "considerations": {
-                    "useCases": "How the model is intended to be used",
+                    "useCases": "Description of how the model is intended to be used",
                     "environmentalConsiderations": {
                         "properties": [
                             {
@@ -76,7 +76,7 @@
                 "properties": [ //Provides the ability to document properties in a name-value store.
                     {
                         "name": "library name",
-                        "value": "Specifies the name of the library used by the model, e.g transformers"
+                        "value": "Specifies the name of the library used by the model (e.g transformers)"
                     },
                     {
                         "name": "base_model",
@@ -93,7 +93,7 @@
                     "name": "The person(s) who created the component."
                 }
             ],
-            "description": "The value for this field is extracted from the #model description of the Hugging Face model card.",
+            "description": "The value for this field is extracted from the '#model description' of the Hugging Face model card.",
             "tags": [
                 "transformers",
                 "pytorch"
@@ -104,22 +104,22 @@
         {
             "type": "Specifies the type of component: data (for dataset)",
             "bom-ref": "An optional identifier which can be used to reference the component elsewhere in the BOM.",
-            "name": "databricks/databricks-dolly-15k",
+            "name": "The name of the dataset. (model_author/dataset_name)",
             "data": [
                 {
                     "type": "dataset",
                     "bom-ref": "An optional identifier which can be used to reference the component elsewhere in the BOM.",
                     "name": "The name of the dataset. (model_author/dataset_name)",
                     "contents": {
-                        "url": "The URL to where the data can be retrieved.",
+                        "url": "The URL where the dataset can be accessed or downloaded.",
                         "properties": [
                             {
                                 "name": "task_categories",
-                                "value": "List of high-level machine learning task categories that this dataset is designed for."
+                                "value": "List of high-level machine learning task categories (e.g., text classification, translation)."
                             },
                             {
                                 "name": "task_ids",
-                                "value": "List of specific machine learning tasks associated with this dataset."
+                                "value": "List of specific tasks the dataset supports (e.g., sentiment-analysis)."
                             },
                             {
                                 "name": "language",
@@ -127,11 +127,11 @@
                             },
                             {
                                 "name": "language_details",
-                                "value": " List of detailed language identifiers (BCP-47 format) for the dataset"
+                                "value": "List of language identifiers in BCP-47 format (e.g., en, fr-FR)."
                             },
                             {
                                 "name": "size_categories",
-                                "value": "Describe the size of the dataset based on the number of elements."
+                                "value": "Classification of the dataset by size (e.g., 1K–10K, 100K–1M instances)."
                             },
                             {
                                 "name": "annotations_creators",
@@ -143,7 +143,7 @@
                             },
                             {
                                 "name": "pretty_name",
-                                "value": "A user-friendly or readable name for the dataset."
+                                "value": "A user-friendly or human-readable name for the dataset."
                             },
                             {
                                 "name": "source_datasets",
@@ -151,15 +151,15 @@
                             },
                             {
                                 "name": "paperswithcode_id",
-                                "value": "Identifier of the dataset on PapersWithCode"
+                                "value": "Identifier of the dataset on PapersWithCode."
                             },
                             {
-                                "name": "configs, split, path",
+                                "name": "configs",
                                 "value": "Name of the dataset subset, split, path"
                             },
                             {
                                 "name": "license",
-                                "value": "A valid SPDX license identifier."
+                                "value": "A valid SPDX license identifier (e.g., Apache-2.0, MIT)."
                             },
                             {
                                 "name": "license_name",
@@ -177,7 +177,7 @@
                             {
                                 "organization": {
                                     "name": "The name of th author(s)",
-                                    "url": "Link to the author’s page on Hugging Face."
+                                    "url": "Link to the author's page on Hugging Face."
                                 }
                             }
                         ]
