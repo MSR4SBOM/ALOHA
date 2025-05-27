@@ -138,6 +138,11 @@ def generate_cyclonedx_component(data):
     model_description = get_model_info(data.get('id'), valid_titles_model_description)
     if model_description:
         component['description'] = model_description
+    else : #The sections titled 'Model Details' and 'Model Description' are present
+        model_description = get_model_info(data.get('id'), ['model description'])
+        if model_description:
+            component['description'] = model_description
+        
 
     #components->tags
     if data.get('tags', {}):
@@ -351,8 +356,10 @@ def get_model_info(model_id, valid_titles):
                 # Stop capturing when another section is found or the last line is reached
                 if riga.startswith("#") or i == len(righe)-1:
                     capture = False
-                    description_text.pop()  
-                    model_description = "\n".join(description_text)  
+                    description_text.pop()
+                    description_text.pop(0)  
+                    #model_description = "\n".join(description_text) 
+                    model_description = "".join(description_text)  
                     return model_description
 
            
