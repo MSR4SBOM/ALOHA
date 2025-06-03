@@ -31,15 +31,15 @@ python ALOHA.py facebook/bart-large
 This will produce a JSON file containing the AIBOM for the specified model.
 
 ## Output Format
-The generated AIBOM follows the **CycloneDX** standard and includes:
+The generated AIBOM follows the **CycloneDX** standard (**[CycloneDX 1.6 JSON Schema](https://cyclonedx.org/docs/1.6/json/)**) and includes:
 - **`bomFormat` & `specVersion`**: Defines the BOM format and CycloneDX specification version.
 - **`serialNumber` & `version`**: Unique identifiers for the AIBOM instance.
 - **`metadata`**: Includes the timestamp of generation and model-related details.
-- **`components`**: Contains information about the dataset used to train/test the machine learning model, if specified by the model's author.
+- **`components`**: Contains information about the dataset(s) used to train/test the machine learning model, if specified by the model's author.
 - **`externalReferences`**: Provides links to the model's official documentation on Hugging Face.
 - **`properties`**: Stores additional metadata not natively supported by CycloneDX.
 
-The complete structure and details of the fields can be found in the official documentation: **[CycloneDX 1.6 JSON Schema](https://cyclonedx.org/docs/1.6/json/)**.
+Further details about these main fields and subfields can be found here **[documentation](https://github.com/MSR4SBOM/ALOHA/blob/main/documentation.json)**.
 
 ## Example JSON output:
 ```json
