@@ -26,7 +26,7 @@ python ALOHA.py <model_ID> -o <output_dir_path>
 
 ### Example
 ```sh
-python ALOHA.py facebook/bart-large
+python ALOHA.py bigcode/starpii
 ```
 This will produce a JSON file containing the AIBOM for the specified model.
 
