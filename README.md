@@ -46,68 +46,125 @@ Further details about these main fields and subfields can be found here **[docum
 {
     "bomFormat": "CycloneDX",
     "specVersion": "1.6",
-    "serialNumber": "urn:uuid:c11ff07a-64b8-4944-8317-c2b7d41632b6",
+    "serialNumber": "urn:uuid:421fccc0-305e-4541-bc3d-cdc05a46c313",
     "version": 1,
     "metadata": {
-        "timestamp": "2025-03-19T20:48:08.493691+00:00",
+        "timestamp": "2025-06-04T17:20:24.648647+00:00",
         "component": {
             "type": "machine-learning-model",
-            "bom-ref": "facebook/bart-large-2c308c2e-6643-55f4-8588-42fb9fc394cd",
-            "licenses": [
-                {
-                    "license": {
-                        "id": "Apache-2.0",
-                        "url": "https://spdx.org/licenses/Apache-2.0.html"
-                    }
-                }
-            ],
+            "bom-ref": "bigcode/starpii-4e7675e7-7b30-5eb5-862d-d1fbf9b4ba8f",
+            "name": "bigcode/starpii",
             "externalReferences": [
                 {
-                    "url": "https://huggingface.co/facebook/bart-large",
+                    "url": "https://huggingface.co/bigcode/starpii",
                     "type": "documentation"
                 }
             ],
             "modelCard": {
                 "modelParameters": {
-                    "datasets": [],
-                    "task": "feature-extraction",
-                    "architectureFamily": "bart",
-                    "modelArchitecture": "BartModel"
+                    "task": "token-classification",
+                    "architectureFamily": "bert",
+                    "modelArchitecture": "BertForTokenClassification",
+                    "datasets": [
+                        {
+                            "ref": "bigcode/pii-annotated-toloka-donwsample-emails-cdd64174-148d-5284-a37c-504412b8f3b4"
+                        },
+                        {
+                            "ref": "bigcode/pseudo-labeled-python-data-pii-detection-filtered-75f77736-2796-536b-b7c3-7a350d034fe4"
+                        }
+                    ]
                 },
                 "properties": [
                     {
                         "name": "library_name",
                         "value": "transformers"
                     }
-                ],
-                "consideration": {
-                    "useCases": "## Intended uses & limitations\n\nYou can use the raw model for text infilling. However, the model is mostly meant to be fine-tuned on a supervised dataset. See the [model hub](https://huggingface.co/models?search=bart) to look for fine-tuned versions on a task that interests you.\n"
-                }
+                ]
             },
-            "name": "facebook/bart-large",
             "authors": [
                 {
-                    "name": "facebook"
+                    "name": "bigcode"
                 }
             ],
-            "description": "## Model description\n\nBART is a transformer encoder-decoder (seq2seq) model with a bidirectional (BERT-like) encoder and an autoregressive (GPT-like) decoder. BART is pre-trained by (1) corrupting text with an arbitrary noising function, and (2) learning a model to reconstruct the original text.\n\nBART is particularly effective when fine-tuned for text generation (e.g. summarization, translation) but also works well for comprehension tasks (e.g. text classification, question answering).\n",
             "tags": [
                 "transformers",
                 "pytorch",
-                "tf",
-                "jax",
-                "rust",
-                "bart",
-                "feature-extraction",
-                "en",
-                "arxiv:1910.13461",
-                "license:apache-2.0",
+                "bert",
+                "token-classification",
+                "code",
+                "dataset:bigcode/pii-annotated-toloka-donwsample-emails",
+                "dataset:bigcode/pseudo-labeled-python-data-pii-detection-filtered",
+                "arxiv:2301.03988",
+                "autotrain_compatible",
                 "endpoints_compatible",
                 "region:us"
             ]
         }
     },
-    "components": []
+    "components": [
+        {
+            "type": "data",
+            "bom-ref": "bigcode/pii-annotated-toloka-donwsample-emails-cdd64174-148d-5284-a37c-504412b8f3b4",
+            "name": "bigcode/pii-annotated-toloka-donwsample-emails",
+            "data": [
+                {
+                    "type": "dataset",
+                    "bom-ref": "bigcode/pii-annotated-toloka-donwsample-emails-cdd64174-148d-5284-a37c-504412b8f3b4",
+                    "name": "bigcode/pii-annotated-toloka-donwsample-emails",
+                    "contents": {
+                        "url": "https://huggingface.co/datasets/bigcode/pii-annotated-toloka-donwsample-emails",
+                        "properties": [
+                            {
+                                "name": "task_categories",
+                                "value": "token-classification"
+                            },
+                            {
+                                "name": "language",
+                                "value": "code"
+                            }
+                        ]
+                    },
+                    "governance": {
+                        "owners": [
+                            {
+                                "organization": {
+                                    "name": "bigcode",
+                                    "url": "https://huggingface.co/bigcode"
+                                }
+                            }
+                        ]
+                    },
+                    "description": "\n\t\n\t\t\n\t\tPII dataset\n\t\n\n\n\t\n\t\t\n\t\tDataset description\n\t\n\nThis is an annotated dataset for Personal Identifiable Information (PII) in code. The target entities are: Names, Usernames, Emails, IP addresses, Keys, Passwords, and IDs. \nThe annotation process involved 1,399 crowd-workers from 35 countries with Toloka. \nIt consists of 12,099 samples of\n~50 lines of code in 31 programming languages. You can also find a PII detection model that we trained on this dataset at bigcode-pii-model.\u2026 See the full description on the dataset page: https://huggingface.co/datasets/bigcode/bigcode-pii-dataset."
+                }
+            ]
+        },
+        {
+            "type": "data",
+            "bom-ref": "bigcode/pseudo-labeled-python-data-pii-detection-filtered-75f77736-2796-536b-b7c3-7a350d034fe4",
+            "name": "bigcode/pseudo-labeled-python-data-pii-detection-filtered",
+            "data": [
+                {
+                    "type": "dataset",
+                    "bom-ref": "bigcode/pseudo-labeled-python-data-pii-detection-filtered-75f77736-2796-536b-b7c3-7a350d034fe4",
+                    "name": "bigcode/pseudo-labeled-python-data-pii-detection-filtered",
+                    "contents": {
+                        "url": "https://huggingface.co/datasets/bigcode/pseudo-labeled-python-data-pii-detection-filtered"
+                    },
+                    "governance": {
+                        "owners": [
+                            {
+                                "organization": {
+                                    "name": "bigcode",
+                                    "url": "https://huggingface.co/bigcode"
+                                }
+                            }
+                        ]
+                    },
+                    "description": "\n\t\n\t\t\n\t\tPseudo-labeled-python-data-pii-detection-filtered\n\t\n\nThis dataset was used for the training of a PII detection NER model. We annotated it using pseudo-labelelling to enhance model performance on some rare PII entities like keys.\nIt consists of 18,000 files annotates using an ensemble of two encoder models Deberta-v3-large and stanford-deidentifier-base which were fine-tuned on a labeled PII dataset for code with 400 files from this work. To select good-quality pseudo-labels, \nwe\u2026 See the full description on the dataset page: https://huggingface.co/datasets/bigcode/pseudo-labeled-python-data-pii-detection-filtered."
+                }
+            ]
+        }
+    ]
 }
 ```
 
