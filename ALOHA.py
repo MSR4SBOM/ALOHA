@@ -21,8 +21,7 @@ def initialize_bom_structure():
         "specVersion": "1.6",
         "serialNumber": urn_uuid,
         "version": 1,
-        "metadata":{},
-        "components": []
+        "metadata":{}
     }
     
     return cyclonedx_bom
@@ -40,9 +39,7 @@ def generate_cyclonedx_component(data):
         }
         ],
         "modelCard": {
-            "modelParameters": {
-                "datasets": [],
-            }
+            "modelParameters": {}
         }
     }
 
@@ -558,10 +555,11 @@ def generateAIBOM(modelID):
         if isinstance(datasets, str): 
             datasets = [datasets]  # Trasforma la stringa in una lista con l'elemento come unico elemento    
         for name_dataset in datasets:
+            component.setdefault('modelCard', {}).setdefault('modelParameters', {}).setdefault('datasets', []) # Ensure that the nested structure exists before appending the dataset reference
             component['modelCard']['modelParameters']['datasets'].append({'ref':generate_bom_ref(name_dataset)})
             dataset_component = generate_dataset_component(name_dataset)
             
-            
+            bom.setdefault('components',{})
             bom['components'].append(dataset_component)
 
     
