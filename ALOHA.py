@@ -32,39 +32,32 @@ def generate_cyclonedx_component(data):
     component = {
         "type": "machine-learning-model",
         "bom-ref": generate_bom_ref(data.get('id')),
-        "licenses": [],
+        "name": data.get('id'), #components->name
         "externalReferences": [{
             "url":  f"https://huggingface.co/{data.get('id')}",
             "type": 'documentation'
         }
-        ],
-        "modelCard": {
-            "modelParameters": {}
-        }
+        ]
     }
-
-    #components->name
-    if data.get('id'):
-        component["name"]=data.get('id')
 
     #components->modelCard->task
     if data.get('pipeline_tag'):
-        component["modelCard"].setdefault("modelParameters", {})["task"] = data['pipeline_tag']
+        component.setdefault("modelCard", {}).setdefault("modelParameters", {})["task"] = data['pipeline_tag']
 
 
     #components->modelCard->modelParameters->architectureFamily
     if 'model_type' in data.get('config', {}):
-        component["modelCard"].setdefault("modelParameters", {})['architectureFamily'] = data['config']['model_type']
+        component.setdefault("modelCard", {}).setdefault("modelParameters", {})['architectureFamily'] = data['config']['model_type']
         
 
     #components->modelCard->modelParameters->modelArchitecture
     if 'architectures' in data.get('config', {}):
-        component["modelCard"].setdefault("modelParameters", {})['modelArchitecture'] = ", ".join(data['config']['architectures']) 
+        component.setdefault("modelCard", {}).setdefault("modelParameters", {})['modelArchitecture'] = ", ".join(data['config']['architectures']) 
         
 
     #components->modelCard->properties "library_name"
     if data.get('library_name'): 
-        component["modelCard"].setdefault("properties", []).append(generate_properties('library_name',data['library_name']))
+        component.setdefault("modelCard", {}).setdefault("properties", []).append(generate_properties('library_name',data['library_name']))
 
     #components->authors 
     if data.get('author'):
@@ -80,7 +73,7 @@ def generate_cyclonedx_component(data):
                 if lic_info:
                     #The license is recognized by SPDX
                     #components->licenses->license->id, #components->licenses->license->url
-                    component['licenses'].append({"license": {"id": lic_info['licenseId'], "url":lic_info['reference']}}) 
+                    component.setdefault('licenses', []).append({"license": {"id": lic_info['licenseId'], "url":lic_info['reference']}}) 
                 else:
                     #The license is not recognized by SPDX.
                     if lic == 'other': 
@@ -93,21 +86,21 @@ def generate_cyclonedx_component(data):
                             if 'license_details' in data.get('cardData', {}):
                                 license_details = data['cardData']['license_details']
                                 license_entry['license']['properties'] = [generate_properties('license_details',license_details)] #components->licenses->license->properties
-                            component['licenses'].append(license_entry)
+                            component.setdefault('licenses', []).append(license_entry)
                         else:
                             #If license == other but license_name does not define
                             license_entry = {"license": {"name": lic}} #components->licenses->license->name
-                            component['licenses'].append(license_entry)
+                            component.setdefault('licenses', []).append(license_entry)
                     else:
                         #If SPDX does not define the license used and lic != other
-                        component['licenses'].append({"license": {"name": lic}}) #components->licenses->license->name
+                        component.setdefault('licenses', []).append({"license": {"name": lic}}) #components->licenses->license->name
         # license is not a list
         else:
             lic_info = is_license_recognized(license)
             if lic_info:
                 #The license is not recognized by SPDX.
                 #components->licenses->license->id, #components->licenses->license->url
-                component['licenses'].append({"license": {"id": lic_info['licenseId'], "url":lic_info['reference']}}) 
+                component.setdefault('licenses', []).append({"license": {"id": lic_info['licenseId'], "url":lic_info['reference']}}) 
             else:
                 #The license is not recognized by SPDX.
                 if license == 'other': #https://github.com/huggingface/hub-docs/blob/main/datasetcard.md?plain=1
@@ -120,14 +113,14 @@ def generate_cyclonedx_component(data):
                         if 'license_details' in data.get('cardData', {}):
                             license_details = data['cardData']['license_details']
                             license_entry['license']['properties'] = [generate_properties('license_details',license_details)] #components->licenses->license->properties
-                        component['licenses'].append(license_entry)
+                        component.setdefault('licenses', []).append(license_entry)
                     else:
                         #If license == other but license_name does not define
                         license_entry = {"license": {"name": license}} #components->licenses->license->name
-                        component['licenses'].append(license_entry)
+                        component.setdefault('licenses', []).append(license_entry)
                 else:
                     #If SPDX does not define the license used and lic != other
-                    component['licenses'].append({"license": {"name": license}}) #components->licenses->license->name
+                    component.setdefault('licenses', []).append({"license": {"name": license}}) #components->licenses->license->name
 
         
     #components->description #description (text description)
@@ -393,7 +386,6 @@ def generate_dataset_component(dataset_ID):
             "name": dataset_ID,
             "contents": {
                 "url": url_dataset,
-                "properties": []
             }
         }
         #dataset = generate_cyclonedx_datasets(dataset_ID,url_dataset)
@@ -408,52 +400,53 @@ def generate_dataset_component(dataset_ID):
         #task_categories dataset
         if 'task_categories' in datasetData.get('cardData', {}):
             task_categories_d = list_to_string(datasetData['cardData']['task_categories'])
-            dataset['contents']['properties'].append(generate_properties('task_categories',task_categories_d))
+            dataset.setdefault('contents', {}).setdefault('properties', []).append(generate_properties('task_categories',task_categories_d))
+           
         
         #task_ids 
         if 'task_ids' in datasetData.get('cardData', {}):
             task_ids_d = list_to_string(datasetData['cardData']['task_ids'])
-            dataset['contents']['properties'].append(generate_properties('task_ids',task_ids_d))
+            ddataset.setdefault('contents', {}).setdefault('properties', []).append(generate_properties('task_ids',task_ids_d))
 
         #language 
         if 'language' in datasetData.get('cardData', {}):
             language_d = list_to_string(datasetData['cardData']['language'])
-            dataset['contents']['properties'].append(generate_properties('language',language_d))
+            dataset.setdefault('contents', {}).setdefault('properties', []).append(generate_properties('language',language_d))
 
         #language_details
         if 'language_details' in datasetData.get('cardData', {}):
             language_details_d = list_to_string(datasetData['cardData']['language_details'])
-            dataset['contents']['properties'].append(generate_properties('language_details',language_details_d))
+            dataset.setdefault('contents', {}).setdefault('properties', []).append(generate_properties('language_details',language_details_d))
         
         #size_categories number_of_elements_in_dataset
         if 'size_categories' in datasetData.get('cardData', {}):
             size_categories_d = list_to_string(datasetData['cardData']['size_categories'])
-            dataset['contents']['properties'].append(generate_properties('size_categories',size_categories_d))
+            dataset.setdefault('contents', {}).setdefault('properties', []).append(generate_properties('size_categories',size_categories_d))
 
         #annotations_creators
         if 'annotations_creators' in datasetData.get('cardData', {}):
             annotations_creators_d = list_to_string(datasetData['cardData']['annotations_creators'])
-            dataset['contents']['properties'].append(generate_properties('annotations_creators',annotations_creators_d))
+            dataset.setdefault('contents', {}).setdefault('properties', []).append(generate_properties('annotations_creators',annotations_creators_d))
 
         #language_creators
         if 'language_creators' in datasetData.get('cardData', {}):
             language_creators_d = list_to_string(datasetData['cardData']['language_creators'])
-            dataset['contents']['properties'].append(generate_properties('language_creators',language_creators_d))
+            dataset.setdefault('contents', {}).setdefault('properties', []).append(generate_properties('language_creators',language_creators_d))
 
         #pretty_name 
         if 'pretty_name' in datasetData.get('cardData', {}):
             pretty_name_d = list_to_string(datasetData['cardData']['pretty_name'])
-            dataset['contents']['properties'].append(generate_properties('pretty_name',pretty_name_d))
+            dataset.setdefault('contents', {}).setdefault('properties', []).append(generate_properties('pretty_name',pretty_name_d))
 
         #source_datasets 
         if 'source_datasets' in datasetData.get('cardData', {}):
             source_datasets_d = list_to_string(datasetData['cardData']['source_datasets'])
-            dataset['contents']['properties'].append(generate_properties('source_datasets',source_datasets_d))
+            dataset.setdefault('contents', {}).setdefault('properties', []).append(generate_properties('source_datasets',source_datasets_d))
         
         #paperswithcode_id
         if 'paperswithcode_id' in datasetData.get('cardData', {}):
             paperswithcode_id_d = list_to_string(datasetData['cardData']['paperswithcode_id'])
-            dataset['contents']['properties'].append(generate_properties('paperswithcode_id',paperswithcode_id_d))
+            dataset.setdefault('contents', {}).setdefault('properties', []).append(generate_properties('paperswithcode_id',paperswithcode_id_d))
 
         #config
         if 'configs' in datasetData.get('cardData', {}):
@@ -463,26 +456,38 @@ def generate_dataset_component(dataset_ID):
                 data_files_d = config_d['data_files']
                 strConfigInfo = "Name of the dataset subset: {} ".format(config_name_d)
                 strConfigInfo += ", ".join([json.dumps(d) for d in data_files_d])
-                dataset['contents']['properties'].append(generate_properties('configs',strConfigInfo)) #configs  "Name of the dataset subset: {...configs->config_name}, split: {...configs->data_files->split}, path: {...configs->data_files->path}"
+                dataset.setdefault('contents', {}).setdefault('properties', []).append(generate_properties('configs',strConfigInfo)) #configs  "Name of the dataset subset: {...configs->config_name}, split: {...configs->data_files->split}, path: {...configs->data_files->path}"
         
 
         
         #license
         if 'license' in datasetData.get('cardData', {}):
             license = list_to_string(datasetData['cardData']['license']) 
-            dataset['contents']['properties'].append(generate_properties('license',license))
+            dataset.setdefault('contents', {}).setdefault('properties', []).append(generate_properties('license',license))
         if license == 'other': 
             if 'license_name' in datasetData.get('cardData', {}):
                 license_name = datasetData['cardData']['license_name']
-                dataset['contents']['properties'].append(generate_properties('license_name',license_name))
+                dataset.setdefault('contents', {}).setdefault('properties', []).append(generate_properties('license_name',license_name))
             if 'license_link' in datasetData.get('cardData', {}):
                 license_link = datasetData['cardData']['license_link']
-                dataset['contents']['properties'].append(generate_properties('license_link',license_link))
+                dataset.setdefault('contents', {}).setdefault('properties', []).append(generate_properties('license_link',license_link))
             if 'license_details' in datasetData.get('cardData', {}):
                 license_details = datasetData['cardData']['license_details']
-                dataset['contents']['properties'].append(generate_properties('license_details',license_details))
+                dataset.setdefault('contents', {}).setdefault('properties', []).append(generate_properties('license_details',license_details))
 
+        governance_info = {
+            "owners": [
+                {
+                    "organization": {
+                        "name": author_name,
+                        "url": author_url
+                    }
+                }
+            ]   
+        }
 
+        dataset['governance'] = governance_info
+        dataset['description'] = description
         
     else:
         # Error, the dataset is not present on Hugging Face
@@ -491,29 +496,15 @@ def generate_dataset_component(dataset_ID):
         dataset = {
             "type": "dataset",
             "bom-ref": generate_bom_ref(dataset_ID),
-            "name": dataset_ID,
-            "contents": {
-                "url": url_dataset,
-                "properties": []
-            }
+            "name": dataset_ID
         }
     
     
 
-    governance_info = {
-        "owners": [
-            {
-                "organization": {
-                    "name": author_name,
-                    "url": author_url
-                }
-            }
-        ]   
-    }
+
     
     
-    dataset['description'] = description
-    dataset['governance'] = governance_info
+    
 
     dataset_compoent = {
         "type": "data",
@@ -559,7 +550,7 @@ def generateAIBOM(modelID):
             component['modelCard']['modelParameters']['datasets'].append({'ref':generate_bom_ref(name_dataset)})
             dataset_component = generate_dataset_component(name_dataset)
             
-            bom.setdefault('components',{})
+            bom.setdefault('components',[])
             bom['components'].append(dataset_component)
 
     
