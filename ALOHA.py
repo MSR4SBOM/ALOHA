@@ -170,13 +170,13 @@ def generate_cyclonedx_component(data):
                     value_mi = metric.get('value', {}) #components->modelCard->quantitativeAnalysis->performanceMetrics->value
                     
                     if 'performanceMetrics' in component.get('modelCard',{}).get('quantitativeAnalysis',{}):
-                        component['modelCard']['quantitativeAnalysis']['performanceMetrics'].append({"slice": slice_mi,
+                        component.setdefault("modelCard", {})['quantitativeAnalysis']['performanceMetrics'].append({"slice": slice_mi,
                                                                                                     "type": type_mi,
                                                                                                     "value": value_mi}) 
 
                     else:
-                        component['modelCard']['quantitativeAnalysis'] = {}
-                        component['modelCard']['quantitativeAnalysis']['performanceMetrics'] = [{"slice": slice_mi,
+                        component.setdefault("modelCard", {})['quantitativeAnalysis'] = {}
+                        component.setdefault("modelCard", {})['quantitativeAnalysis']['performanceMetrics'] = [{"slice": slice_mi,
                                                                                                 "type": type_mi,
                                                                                                 "value": value_mi}] 
 
@@ -187,13 +187,13 @@ def generate_cyclonedx_component(data):
         if isinstance(base_model, list):
             base_model = ', '.join(base_model)
         if 'properties' in component.get('modelCard', {}): 
-            component['modelCard']['properties'].append(generate_properties('base_model',base_model)) #components->modelCard->properties
+            component.setdefault("modelCard", {})['properties'].append(generate_properties('base_model',base_model)) #components->modelCard->properties
         else:
-            component['modelCard']['properties'] = [generate_properties('base_model',base_model)] #components->modelCard->properties
+            component.setdefault("modelCard", {})['properties'] = [generate_properties('base_model',base_model)] #components->modelCard->properties
         
         if 'base_model_relation' in data.get('cardData', {}):
             base_model_relation = data['cardData']['base_model_relation']
-            component['modelCard']['properties'].append(generate_properties('base_model_relation',base_model_relation)) #components->modelCard->properties
+            component.setdefault("modelCard", {})['properties'].append(generate_properties('base_model_relation',base_model_relation)) #components->modelCard->properties
 
 
     #useCases (text description)
@@ -202,10 +202,10 @@ def generate_cyclonedx_component(data):
     useCases = get_model_info(data.get('id'), valid_titles_uses)
     if useCases:
         if 'modelCard' in component and 'consideration' in component['modelCard']:
-            component['modelCard']['consideration']['useCases'] = useCases
+            component.setdefault("modelCard", {})['consideration']['useCases'] = useCases
         else:
-            component['modelCard']['consideration'] = {}
-            component['modelCard']['consideration']['useCases'] = useCases
+            component.setdefault("modelCard", {})['consideration'] = {}
+            component.setdefault("modelCard", {})['consideration']['useCases'] = useCases
 
 
 
@@ -406,7 +406,7 @@ def generate_dataset_component(dataset_ID):
         #task_ids 
         if 'task_ids' in datasetData.get('cardData', {}):
             task_ids_d = list_to_string(datasetData['cardData']['task_ids'])
-            ddataset.setdefault('contents', {}).setdefault('properties', []).append(generate_properties('task_ids',task_ids_d))
+            dataset.setdefault('contents', {}).setdefault('properties', []).append(generate_properties('task_ids',task_ids_d))
 
         #language 
         if 'language' in datasetData.get('cardData', {}):
