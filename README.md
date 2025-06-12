@@ -39,7 +39,7 @@ The generated AIBOM follows the **CycloneDX** standard (**[CycloneDX 1.6 JSON Sc
 - **`externalReferences`**: Provides links to the model's official documentation on Hugging Face.
 - **`properties`**: Stores additional metadata not natively supported by CycloneDX.
 
-Further details about these main fields and subfields can be found here **[documentation](https://github.com/MSR4SBOM/ALOHA/blob/main/documentation.json)**.
+Further details about these main fields and subfields can be found **[here](https://github.com/MSR4SBOM/ALOHA/blob/main/documentation.json)**.
 
 ## Example JSON output:
 ```json
